@@ -7,18 +7,42 @@ public class LibraryManagementSystem {
     public static final Map<Integer, List<String>> readerRecords = new HashMap<>(); // Reader ID -> List of ISBNs
 
     public static void addBook(String isbn, String title) {
+        bookCatalog.put(isbn, new HashMap<>());
+        bookCatalog.get(isbn).put("Title", title);
+        bookCatalog.get(isbn).put("Status", "Available");
     }
 
     public static void removeBook(String isbn) {
+        bookCatalog.remove(isbn);
     }
 
     public static void issueBook(String isbn, int readerId) {
+        if (bookCatalog.containsKey(isbn) && bookCatalog.get(isbn).get("Status").equals("Available")) {
+            bookCatalog.get(isbn).put("Status", "Issued");
+            readerRecords.computeIfAbsent(readerId, k -> new ArrayList<>()).add(isbn);
+        }
     }
 
     public static void returnBook(String isbn, int readerId) {
+        if (readerRecords.containsKey(readerId) && readerRecords.get(readerId).contains(isbn)) {
+            bookCatalog.get(isbn).put("Status", "Available");
+            readerRecords.get(readerId).remove(isbn);
+        }
     }
 
     public static List<String> getBooksByStatus(String status) {
+        List<String> result = new ArrayList<>();
+
+        for (Map.Entry<String, Map<String, String>> entry : bookCatalog.entrySet()) {
+            String isbn = entry.getKey();
+            String bookStatus = entry.getValue().get("Status");
+
+            if (status.equals(bookStatus)) {
+                result.add(isbn);
+            }
+        }
+
+        return result;
     }
 
     public static void main(String[] args) {

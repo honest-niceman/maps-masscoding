@@ -25,15 +25,31 @@ public class RestaurantOrderSystem {
     }
 
     private static void printAllOrders(Map<Integer, Map<String, Integer>> orders) {
-        //todo
+        System.out.println("Orders:");
+        orders.forEach((orderNumber, order) -> {
+            System.out.println("Order #" + orderNumber);
+            order.forEach((dish, quantity) -> System.out.println("  " + dish + ": " + quantity));
+            System.out.println("Total Cost: $" + calculateTotalCost(order));
+            System.out.println();
+        });
     }
 
     public static void addOrder(Map<Integer, Map<String, Integer>> orders, int orderNumber, String dish, int quantity) {
-        //todo
+        orders.computeIfAbsent(orderNumber, k -> new HashMap<>()).merge(dish, quantity, Integer::sum);
     }
 
     public static double calculateTotalCost(Map<String, Integer> order) {
-        //todo
+        double totalCost = 0;
+        Map<String, Double> menu = createMenu();
+
+        for (Map.Entry<String, Integer> entry : order.entrySet()) {
+            String dish = entry.getKey();
+            int quantity = entry.getValue();
+            double dishCost = menu.getOrDefault(dish, 0.0);
+            totalCost += dishCost * quantity;
+        }
+
+        return totalCost;
     }
 
     public static Map<String, Double> createMenu() {
