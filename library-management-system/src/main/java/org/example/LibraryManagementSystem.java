@@ -6,40 +6,33 @@ public class LibraryManagementSystem {
     public static final Map<String, Map<String, String>> bookCatalog = new HashMap<>(); // ISBN -> (Title, Status)
     public static final Map<Integer, List<String>> readerRecords = new HashMap<>(); // Reader ID -> List of ISBNs
 
-    public void addBook(String isbn, String title) {
-        //todo
+    public static void addBook(String isbn, String title) {
     }
 
-    public void removeBook(String isbn) {
-        //todo
+    public static void removeBook(String isbn) {
     }
 
-    public void issueBook(String isbn, int readerId) {
-        //todo
+    public static void issueBook(String isbn, int readerId) {
     }
 
-    public void returnBook(String isbn, int readerId) {
-        //todo
+    public static void returnBook(String isbn, int readerId) {
     }
 
-    public List<String> getBooksByStatus(String status) {
-        //todo
+    public static List<String> getBooksByStatus(String status) {
     }
 
     public static void main(String[] args) {
-        LibraryManagementSystem library = new LibraryManagementSystem();
+        LibraryManagementSystem.addBook("1", "The Catcher in the Rye");
+        LibraryManagementSystem.addBook("2", "To Kill a Mockingbird");
+        LibraryManagementSystem.addBook("3", "1984");
 
-        library.addBook("1", "The Catcher in the Rye");
-        library.addBook("2", "To Kill a Mockingbird");
-        library.addBook("3", "1984");
+        LibraryManagementSystem.issueBook("1", 1);
+        LibraryManagementSystem.issueBook("2", 2);
 
-        library.issueBook("1", 1);
-        library.issueBook("2", 2);
-
-        library.returnBook("1", 1);
+        LibraryManagementSystem.returnBook("1", 1);
 
         System.out.println("Books by Status:");
-        List<String> booksByStatus = library.getBooksByStatus("Available");
+        List<String> booksByStatus = LibraryManagementSystem.getBooksByStatus("Available");
         booksByStatus.forEach((isbns) -> System.out.println("Available: " + isbns));
 
         System.out.println("\nReader Records:");
